@@ -39,20 +39,55 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Custom Dropdown Animation */
-        .dropdown-enter {
-            opacity: 0;
-            transform: scale(0.95) translateY(-10px);
+        /* Estilos de Impressão (PDF Completo) */
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+            html, body {
+                height: auto !important;
+                overflow: visible !important;
+                background-color: white !important;
+            }
+            aside, header, .no-print, button, label, input, .lucide {
+                display: none !important;
+            }
+            .lg:pl-\[260px\] {
+                padding-left: 0 !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            .apple-card {
+                box-shadow: none !important;
+                border: 1px solid #F2F2F7 !important;
+                break-inside: avoid;
+                margin-bottom: 24px;
+                page-break-inside: avoid;
+            }
+            .print-only {
+                display: block !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            /* Forçar grid a se comportar bem no PDF */
+            .grid {
+                display: grid !important;
+                gap: 1rem !important;
+            }
+            /* Prevenir que gráficos fiquem cortados */
+            .recharts-responsive-container {
+                width: 100% !important;
+                height: 400px !important;
+            }
         }
-        .dropdown-active {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        
-        @media (max-width: 1024px) {
-            body { padding-bottom: 80px; }
-        }
+        .print-only { display: none; }
     </style>
 <script type="importmap">
 {
@@ -73,5 +108,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <!-- Script de entrada vital para o carregamento no GitHub Pages -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>

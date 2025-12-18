@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import { Filters, AdData, DatePreset } from '../types';
-import { Upload, Package, Filter, Trash2, Calendar, Layers, Layout } from 'lucide-react';
+import { Upload, Package, Filter, Trash2, Calendar, Layers, Layout, Share } from 'lucide-react';
 import Selector from './SearchableSelect';
 import { parseAdsCSV } from '../services/csvService';
 
@@ -16,7 +16,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ filters, setFilters, rawData, onUpload, onClear }) => {
-  // Filtros em cascata usando dados BRUTOS para permitir navegação
   const productOptions = useMemo(() => {
     const products = Array.from(new Set(rawData.map(d => d.product))).filter(Boolean).sort();
     return products.filter(p => p !== 'POSTS TURBINADOS').concat(products.includes('POSTS TURBINADOS') ? ['POSTS TURBINADOS'] : []);
@@ -51,11 +50,15 @@ const Header: React.FC<HeaderProps> = ({ filters, setFilters, rawData, onUpload,
     { label: 'Todo Período', value: 'all' },
   ];
 
+  const handleExport = () => {
+    window.print();
+  };
+
   return (
-    <header className="sticky top-0 z-[100] bg-white/90 backdrop-blur-xl border-b border-gray-100 w-full h-20 flex items-center shadow-sm">
+    <header className="sticky top-0 z-[100] bg-white/90 backdrop-blur-xl border-b border-gray-100 w-full h-20 flex items-center shadow-sm no-print">
       <div className="max-w-[1600px] w-full mx-auto px-8 flex items-center justify-between">
         
-        <div className="flex items-center gap-2 py-2 flex-1">
+        <div className="flex items-center gap-2 py-2 flex-1 overflow-x-auto no-scrollbar">
           <Selector
             placeholder="Período"
             options={datePresets.map(p => p.label)}
@@ -84,32 +87,24 @@ const Header: React.FC<HeaderProps> = ({ filters, setFilters, rawData, onUpload,
             onChange={(val) => setFilters(f => ({ ...f, selectedCampaign: val, selectedAdSet: '', selectedAd: '' }))}
             icon={<Filter size={16} />}
           />
-
-          <Selector
-            placeholder="Conjunto"
-            options={adSetOptions}
-            value={filters.selectedAdSet}
-            onChange={(val) => setFilters(f => ({ ...f, selectedAdSet: val, selectedAd: '' }))}
-            icon={<Layers size={16} />}
-          />
-
-          <Selector
-            placeholder="Anúncio"
-            options={adOptions}
-            value={filters.selectedAd}
-            onChange={(val) => setFilters(f => ({ ...f, selectedAd: val }))}
-            icon={<Layout size={16} />}
-          />
         </div>
 
         <div className="flex items-center gap-3 ml-4">
+          <button 
+            onClick={handleExport}
+            className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 text-gray-700 rounded-xl text-[12px] font-bold hover:bg-gray-100 transition-all border border-gray-200"
+          >
+            <Share size={14} />
+            <span className="hidden sm:inline">Exportar PDF</span>
+          </button>
+
           <button onClick={onClear} className="p-2.5 text-gray-300 hover:text-red-500 transition-colors shrink-0" title="Apagar Banco de Dados">
             <Trash2 size={20} />
           </button>
           
           <label className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-[12px] font-bold cursor-pointer hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/10 shrink-0">
             <Upload size={14} strokeWidth={3} />
-            <span className="hidden xl:inline">Nova Importação</span>
+            <span className="hidden xl:inline">Importar</span>
             <input type="file" accept=".csv" className="hidden" onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) parseAdsCSV(f).then(res => onUpload(res.data));
