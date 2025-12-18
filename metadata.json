@@ -1,0 +1,5 @@
+{
+  "name": "Dash",
+  "description": "An Apple-like dashboard for ingesting Meta Ads CSVs, offering advanced analytics, CTR normalization, creative galleries, and deep-dive performance metrics with a minimalist, high-performance UI.",
+  "requestFramePermissions": []
+}
