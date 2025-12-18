@@ -1,11 +1,11 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Overview from './views/Overview';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import LandingUpload from './components/LandingUpload';
-import { AdData, Filters } from './types';
+import Overview from './views/Overview.tsx';
+import Header from './components/Header.tsx';
+import Sidebar from './components/Sidebar.tsx';
+import LandingUpload from './components/LandingUpload.tsx';
+import { AdData, Filters } from './types.ts';
 
 const STORAGE_KEY = 'metacore_ads_data';
 
@@ -88,14 +88,14 @@ const AppContent: React.FC = () => {
   if (adsData.length === 0) return <LandingUpload onUpload={handleUpload} />;
 
   return (
-    <div className="min-h-screen bg-[#FBFBFB]">
+    <div className="min-h-screen bg-[#FBFBFB] flex flex-col lg:block">
       <Sidebar 
         rawData={adsData} 
         selectedProduct={filters.selectedProduct} 
         onSelectProduct={(p) => setFilters(f => ({ ...f, selectedProduct: p, selectedCampaign: '', selectedAdSet: '', selectedAd: '' }))} 
         onResetAll={handleResetAll}
       />
-      <div className="lg:pl-[260px]">
+      <div className="lg:pl-[260px] flex-1">
         <Header 
           filters={filters} 
           setFilters={setFilters} 

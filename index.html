@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,6 +20,8 @@
             background-color: #FBFBFB;
             color: #1D1D1F;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
         .apple-card {
             background: #FFFFFF;
@@ -32,22 +35,27 @@
             transform: translateY(-2px);
         }
         
-        /* Estilos de Impressão (PDF de Alta Resolução) */
+        /* Estilos de Impressão Profissional (PDF Completo) */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm;
+                margin: 15mm 10mm;
             }
             html, body {
                 background: white !important;
                 height: auto !important;
                 overflow: visible !important;
+                width: 100% !important;
             }
-            /* Ocultar elementos de UI */
-            aside, header, .no-print, button, label, .lucide {
+            #root {
+                height: auto !important;
+                overflow: visible !important;
+            }
+            /* Ocultar elementos de navegação e UI */
+            aside, header, .no-print, button, label, input, .lucide, [role="button"] {
                 display: none !important;
             }
-            /* Resetar layouts de grid e padding */
+            /* Resetar layout para ocupar toda a largura do papel */
             .lg:pl-\[260px\] {
                 padding-left: 0 !important;
             }
@@ -56,24 +64,34 @@
                 margin: 0 !important;
                 max-width: 100% !important;
                 width: 100% !important;
+                display: block !important;
             }
             .apple-card {
                 box-shadow: none !important;
                 border: 1px solid #E5E5E7 !important;
-                break-inside: avoid;
-                margin-bottom: 20px;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                margin-bottom: 25px !important;
+                display: block !important;
             }
             .print-only {
                 display: block !important;
             }
-            /* Garantir que cores apareçam no PDF */
+            /* Forçar renderização de cores e backgrounds */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
-            /* Forçar tabelas e gráficos a quebrarem corretamente */
+            /* Ajustar containers de gráficos */
+            .recharts-responsive-container {
+                width: 100% !important;
+                height: 350px !important;
+            }
+            /* Quebras de página estratégicas */
             .page-break {
-                page-break-before: always;
+                page-break-before: always !important;
+                margin-top: 20px;
             }
         }
         .print-only { display: none; }
@@ -86,6 +104,7 @@
     "react": "https://esm.sh/react@^19.2.3",
     "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
     "recharts": "https://esm.sh/recharts@^3.6.0",
     "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
     "papaparse": "https://esm.sh/papaparse@^5.5.3",
@@ -97,7 +116,7 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- ESTE SCRIPT ABAIXO É A CORREÇÃO PARA O GITHUB PAGES -->
-    <script type="module" src="./index.tsx"></script>
+    <!-- Ponto de entrada corrigido para GitHub/Browser Modules -->
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>

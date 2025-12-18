@@ -1,12 +1,12 @@
 
 import React, { useMemo } from 'react';
-import { AdData, Filters } from '../types';
-import KPICard from '../components/KPICard';
-import MainChart from '../components/MainChart';
-import CreativeGallery from '../components/CreativeGallery';
-import DataTable from '../components/DataTable';
-import Leaderboard from '../components/Leaderboard';
-import { formatCurrency, formatPercent } from '../utils/formatters';
+import { AdData, Filters } from '../types.ts';
+import KPICard from '../components/KPICard.tsx';
+import MainChart from '../components/MainChart.tsx';
+import CreativeGallery from '../components/CreativeGallery.tsx';
+import DataTable from '../components/DataTable.tsx';
+import Leaderboard from '../components/Leaderboard.tsx';
+import { formatCurrency, formatPercent } from '../utils/formatters.ts';
 import { BarChart3 } from 'lucide-react';
 
 interface OverviewProps {
@@ -79,21 +79,21 @@ const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
             <BarChart3 size={28} />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tight">Relatório de Performance Meta</h1>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Dash Analytics Intelligence</p>
+            <h1 className="text-2xl font-black tracking-tight">Performance Ad Intelligence</h1>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Relatório Analítico de Campanhas</p>
           </div>
         </div>
         <div className="text-right">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Documento Gerado em</p>
-          <p className="text-sm font-black">{new Date().toLocaleDateString('pt-BR')}</p>
+          <p className="text-sm font-black">{new Date().toLocaleDateString('pt-BR')} • {new Date().toLocaleTimeString('pt-BR')}</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-1">
         <h2 className="text-2xl font-black text-gray-900 tracking-tight">
-          {filters.selectedProduct ? `Performance: ${filters.selectedProduct}` : 'Visão Geral do Portfólio'}
+          {filters.selectedProduct ? `Relatório: ${filters.selectedProduct}` : 'Visão Geral do Portfólio'}
         </h2>
-        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] no-print">Status em Tempo Real • {data.length.toLocaleString()} registros</p>
+        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] no-print">Performance • {data.length.toLocaleString()} registros ativos</p>
       </div>
 
       {/* Grid de Métricas Primárias */}
@@ -149,7 +149,6 @@ const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
         </div>
       </div>
 
-      {/* Seção de Líderes com quebra de página se necessário */}
       <div className="page-break">
         <div className="flex items-center justify-between mb-6">
            <h3 className="text-base font-black text-gray-900 tracking-tight uppercase tracking-wider">Top Performance por Criativo</h3>
@@ -157,7 +156,7 @@ const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
         <Leaderboard data={stats.aggregatedAds} />
       </div>
 
-      <div className="apple-card p-10 bg-white">
+      <div className="apple-card p-10 bg-white break-inside-avoid">
         <MainChart data={stats.chartData} />
       </div>
 

@@ -1,9 +1,9 @@
 
 import React, { useMemo } from 'react';
-import { Filters, AdData, DatePreset } from '../types';
-import { Upload, Package, Filter, Trash2, Calendar, Layers, Layout, Share } from 'lucide-react';
-import Selector from './SearchableSelect';
-import { parseAdsCSV } from '../services/csvService';
+import { Filters, AdData, DatePreset } from '../types.ts';
+import { Upload, Package, Filter, Trash2, Calendar, Share } from 'lucide-react';
+import Selector from './SearchableSelect.tsx';
+import { parseAdsCSV } from '../services/csvService.ts';
 
 interface HeaderProps {
   filters: Filters;
@@ -26,21 +26,6 @@ const Header: React.FC<HeaderProps> = ({ filters, setFilters, rawData, onUpload,
     if (filters.selectedProduct) src = src.filter(d => d.product === filters.selectedProduct);
     return Array.from(new Set(src.map(d => d.campaignName))).sort();
   }, [rawData, filters.selectedProduct]);
-
-  const adSetOptions = useMemo(() => {
-    let src = rawData;
-    if (filters.selectedProduct) src = src.filter(d => d.product === filters.selectedProduct);
-    if (filters.selectedCampaign) src = src.filter(d => d.campaignName === filters.selectedCampaign);
-    return Array.from(new Set(src.map(d => d.adSetName))).sort();
-  }, [rawData, filters.selectedProduct, filters.selectedCampaign]);
-
-  const adOptions = useMemo(() => {
-    let src = rawData;
-    if (filters.selectedProduct) src = src.filter(d => d.product === filters.selectedProduct);
-    if (filters.selectedCampaign) src = src.filter(d => d.campaignName === filters.selectedCampaign);
-    if (filters.selectedAdSet) src = src.filter(d => d.adSetName === filters.selectedAdSet);
-    return Array.from(new Set(src.map(d => d.adName))).sort();
-  }, [rawData, filters.selectedProduct, filters.selectedCampaign, filters.selectedAdSet]);
 
   const datePresets: { label: string, value: DatePreset }[] = [
     { label: 'Últimos 7 dias', value: '7d' },
@@ -92,10 +77,10 @@ const Header: React.FC<HeaderProps> = ({ filters, setFilters, rawData, onUpload,
         <div className="flex items-center gap-3 ml-4">
           <button 
             onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 text-gray-700 rounded-xl text-[12px] font-bold hover:bg-gray-100 transition-all border border-gray-200"
+            className="flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white rounded-xl text-[12px] font-bold hover:bg-black transition-all shadow-lg shadow-black/10"
           >
             <Share size={14} />
-            <span className="hidden sm:inline">Exportar PDF</span>
+            <span className="hidden sm:inline">Exportar Relatório</span>
           </button>
 
           <button onClick={onClear} className="p-2.5 text-gray-300 hover:text-red-500 transition-colors shrink-0" title="Apagar Banco de Dados">
@@ -104,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ filters, setFilters, rawData, onUpload,
           
           <label className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-[12px] font-bold cursor-pointer hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/10 shrink-0">
             <Upload size={14} strokeWidth={3} />
-            <span className="hidden xl:inline">Importar</span>
+            <span className="hidden xl:inline">Importar CSV</span>
             <input type="file" accept=".csv" className="hidden" onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) parseAdsCSV(f).then(res => onUpload(res.data));
