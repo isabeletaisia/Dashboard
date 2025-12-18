@@ -32,27 +32,23 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.04);
             transform: translateY(-2px);
         }
-        .sidebar-item-active {
-            background-color: #1D1D1F;
-            color: white !important;
-        }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Estilos de Impressão (PDF Completo) */
+        /* Estilos de Impressão (PDF de Alta Resolução) */
         @media print {
             @page {
-                size: A4;
+                size: A4 portrait;
                 margin: 10mm;
             }
             html, body {
+                background: white !important;
                 height: auto !important;
                 overflow: visible !important;
-                background-color: white !important;
             }
-            aside, header, .no-print, button, label, input, .lucide {
+            /* Ocultar elementos de UI */
+            aside, header, .no-print, button, label, .lucide {
                 display: none !important;
             }
+            /* Resetar layouts de grid e padding */
             .lg:pl-\[260px\] {
                 padding-left: 0 !important;
             }
@@ -64,27 +60,21 @@
             }
             .apple-card {
                 box-shadow: none !important;
-                border: 1px solid #F2F2F7 !important;
+                border: 1px solid #E5E5E7 !important;
                 break-inside: avoid;
-                margin-bottom: 24px;
-                page-break-inside: avoid;
+                margin-bottom: 20px;
             }
             .print-only {
                 display: block !important;
             }
+            /* Garantir que cores apareçam no PDF */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            /* Forçar grid a se comportar bem no PDF */
-            .grid {
-                display: grid !important;
-                gap: 1rem !important;
-            }
-            /* Prevenir que gráficos fiquem cortados */
-            .recharts-responsive-container {
-                width: 100% !important;
-                height: 400px !important;
+            /* Forçar tabelas e gráficos a quebrarem corretamente */
+            .page-break {
+                page-break-before: always;
             }
         }
         .print-only { display: none; }
@@ -108,7 +98,7 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- Script de entrada vital para o carregamento no GitHub Pages -->
+    <!-- ESTE SCRIPT ABAIXO É A CORREÇÃO PARA O GITHUB PAGES -->
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>

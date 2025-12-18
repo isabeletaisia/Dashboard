@@ -72,28 +72,28 @@ const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
       
-      {/* Cabeçalho exclusivo para Impressão/PDF */}
-      <div className="print-only mb-10 pb-8 border-b-2 border-gray-900 flex justify-between items-end">
+      {/* Cabeçalho de Impressão (Só aparece no PDF) */}
+      <div className="print-only mb-12 pb-6 border-b-2 border-black flex justify-between items-end">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white">
+          <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center text-white">
             <BarChart3 size={28} />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tight">Meta Performance Report</h1>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Analytics Intelligence Dashboard</p>
+            <h1 className="text-2xl font-black tracking-tight">Relatório de Performance Meta</h1>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Dash Analytics Intelligence</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Gerado em</p>
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Documento Gerado em</p>
           <p className="text-sm font-black">{new Date().toLocaleDateString('pt-BR')}</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-1">
         <h2 className="text-2xl font-black text-gray-900 tracking-tight">
-          {filters.selectedProduct ? `${filters.selectedProduct}` : 'Visão Geral'}
+          {filters.selectedProduct ? `Performance: ${filters.selectedProduct}` : 'Visão Geral do Portfólio'}
         </h2>
-        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Status da Operação • {data.length.toLocaleString()} eventos processados</p>
+        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] no-print">Status em Tempo Real • {data.length.toLocaleString()} registros</p>
       </div>
 
       {/* Grid de Métricas Primárias */}
@@ -149,22 +149,23 @@ const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
         </div>
       </div>
 
-      <div className="page-break-before">
+      {/* Seção de Líderes com quebra de página se necessário */}
+      <div className="page-break">
         <div className="flex items-center justify-between mb-6">
-           <h3 className="text-base font-black text-gray-900 tracking-tight">Top Performance por Criativo</h3>
+           <h3 className="text-base font-black text-gray-900 tracking-tight uppercase tracking-wider">Top Performance por Criativo</h3>
         </div>
         <Leaderboard data={stats.aggregatedAds} />
       </div>
 
-      <div className="break-inside-avoid">
+      <div className="apple-card p-10 bg-white">
         <MainChart data={stats.chartData} />
       </div>
 
-      <div className="page-break-before">
+      <div className="page-break">
         <CreativeGallery ads={data} />
       </div>
 
-      <div className="page-break-before">
+      <div className="page-break">
         <DataTable data={data} />
       </div>
     </div>
